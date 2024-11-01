@@ -1,0 +1,53 @@
+:root {
+    --grid-rows: 4;
+    --grid-cols: 4;
+}
+
+body {
+    user-select: none;
+    background-color: slategray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    margin-bottom: 0;
+    margin-bottom: 50px;
+}
+
+#row-size-input,
+#col-size-input {
+    width: 40px;
+}
+
+#grid-container {
+    display: grid;
+    justify-content: center;
+    grid-template-rows: repeat(var(--grid-rows), max-content);
+    grid-template-columns: repeat(var(--grid-cols), max-content);
+    margin: 12px;
+}
+
+.cell {
+    background-color: aliceblue;
+    width: 50px;
+    height: 50px;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+}
+
+.north {
+    border-top: 2px solid black;
+}
+
+.east {
+    border-right: 2px solid black;
+}
+.south {
+    border-bottom: 2px solid black;
+}
+.west {
+    border-left: 2px solid black;
+}

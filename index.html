@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="#" type="image/x-icon" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Labyrinth generator</title>
+    </head>
+    <body>
+        <h1>Labyrinth generator</h1>
+
+        <section>
+            <label for="row-size-input">Rows:</label>
+            <input type="number" id="row-size-input" value="7" />
+            <label for="col-size-input">Columns:</label>
+            <input type="number" id="col-size-input" value="7" />
+            <button id="create-labyrinth-btn">Create labyrinth</button>
+        </section>
+
+        <section id="grid-container">
+            <!-- cells are inserted here -->
+        </section>
+
+        <script type="module" src="controller.js"></script>
+    </body>
+</html>
