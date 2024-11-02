@@ -4,13 +4,12 @@ import Labyrinth from "./model.js";
 
 window.addEventListener("load", init);
 
-let ROW_SIZE;
-let COL_SIZE;
-// let labyrinthModel;
+// let ROW_SIZE;
+// let COL_SIZE;
 
 async function init() {
-    ROW_SIZE = document.querySelector("#row-size-input").value;
-    COL_SIZE = document.querySelector("#col-size-input").value;
+    let ROW_SIZE = document.querySelector("#row-size-input").value;
+    let COL_SIZE = document.querySelector("#col-size-input").value;
 
     document.querySelector("#row-size-input").addEventListener("change", (e) => {
         ROW_SIZE = parseInt(e.target.value);
@@ -39,7 +38,7 @@ async function getLabyrinthModel() {
 
 // det her er måske mere view del...
 function createLabyrinth(model) {
-    console.log(model);
+    // console.log(model);
     const labContainer = document.querySelector("#grid-container");
     labContainer.innerHTML = "";
 
