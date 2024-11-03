@@ -71,9 +71,6 @@ export default class Labyrinth {
                     do {
                         currentCell = route.pop();
                         view.markCellUnWalked(currentCell, this);
-                        if (currentCell === nextCell) {
-                            route.push(nextCell)
-                        }
                     } while (nextCell !== currentCell);
 
                     for (const e of route) {
@@ -86,6 +83,9 @@ export default class Labyrinth {
 
                 currentCell = nextCell; // når current
             }
+
+            // husker forbinde den allerede besøgte celle med ruten
+            route.push(currentCell)
 
             // !!! IF ELSE BURDE VÆRE OVERFLØDIGT HER DA selectRandomUnvisitedCell ALLEREDE SØRGER FOR AT UDGANGSPUNKT IKKE ER VISITED !!!
             // hvis routen er 0 så må randomwalks udgangspunkt være visited
