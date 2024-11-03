@@ -41,19 +41,23 @@ export default class Labyrinth {
         const initialCellVisit = this.maze[rowCoordinate][colCoordinate];
         initialCellVisit.visited = true;
         view.markCellVisited(initialCellVisit, this);
-        console.log(`Random cell set to visited at: ${initialCellVisit.row}, ${initialCellVisit.col}`);
+        console.log(`Random cell set to visited at: row ${initialCellVisit.row}, col ${initialCellVisit.col}`);
 
         // random walk så længe der er en celle der ikke er besøgt i this.maze
         while (this.checkForUnvisitedCells()) {
             // finder en tilfældig celle at start randomWalk fra
             let currentCell = this.selectRandomUnvisitedCell();
+            console.log(`Start randomWalk from: row ${currentCell.row}, col ${currentCell.col}`);
             // en "stack" til at holde styr på randomWalk's rute
             let route = [];
 
             // så længe den celle som randomWalk og routen starter fra endnu ikke er besøgt
             while (!currentCell.visited) {
                 route.push(currentCell);
-                console.log("route got new cell: ", route);
+                console.log(`row ${currentCell.row}, col ${currentCell.col} pushed to route`);
+                for (const element of route) {
+                    console.log(element);
+                }
 
                 view.markCellWalked(currentCell, this);
 
@@ -61,35 +65,54 @@ export default class Labyrinth {
 
                 // hvis ruten indeholder nextCell så har ruten ramt sig selv og skal trimmes tilbage til det element den ramte
                 if (route.includes(nextCell)) {
+                    console.log(`Route self collision, route will be trimmed`);
                     // route.pop()// popper den celle som allerede er i listen
                     // popper 1 fra ruten indtil den når den næste af de to ens celle i ruten
-                    while (nextCell !== currentCell) {
+                    do {
                         currentCell = route.pop();
                         view.markCellUnWalked(currentCell, this);
+                        if (currentCell === nextCell) {
+                            route.push(nextCell)
+                        }
+                    } while (nextCell !== currentCell);
+
+                    for (const e of route) {
+                        console.log(e);
                     }
-                    console.log("route collision, route trimmed to: ", route);
-                } else if (nextCell.visited) {
-                    // dette else if statement er overflødigt fordi at currentCell allerede er visited når den rammer den der er visited
-                    currentCell.visited = true; // ???????den foregående celle behøves måske ikke sættes til visited????????
-                }
+                } // else if (nextCell.visited) {
+                // dette else if statement er overflødigt fordi at currentCell allerede er visited når den rammer den der er visited
+                // currentCell.visited = true; // ???????den foregående celle behøves måske ikke sættes til visited????????
+                // }
 
                 currentCell = nextCell; // når current
             }
 
+            // !!! IF ELSE BURDE VÆRE OVERFLØDIGT HER DA selectRandomUnvisitedCell ALLEREDE SØRGER FOR AT UDGANGSPUNKT IKKE ER VISITED !!!
             // hvis routen er 0 så må randomwalks udgangspunkt være visited
-            if (route.length === 0) {
-                this.randomWalk();
-            } else {
-                for (const cell of route) {
-                    cell.visited = true;
-                    route.pop();
-                    view.markCellVisited(cell, this);
-                }
-                route = [];
-            }
-            console.log("route should be empty: ", route);
-            console.log("check if maze has visited cells = route: ", this.maze);
+            // if (route.length === 0) {
             // this.randomWalk();
+            // } else {
+            this.setWalls(route);
+
+            for (const cell of route) {
+                view.markCellVisited(cell, this);
+                this.maze[cell.row][cell.col].visited = true;
+                // view.markCellUnWalked(cell, this);
+            }
+            route = [];
+            console.log("Route should be empty: ", route);
+            view.updateVisualLabyrinth(this);
+
+            // console log det succesfulde randomWalk
+            for (let row = 0; row < this.rows; row++) {
+                for (let col = 0; col < this.cols; col++) {
+                    const cell = this.maze[row][col];
+                    if (this.maze[row][col].visited) {
+                        console.log(`route cell: row ${cell.row}, col ${cell.col} - ${cell.visited}`);
+                    }
+                }
+            }
+            // }
         }
     }
 
@@ -111,7 +134,6 @@ export default class Labyrinth {
             cell = this.maze[unvisitedRowCoordinate][unvisitedColCoordinate];
         } while (cell.visited);
 
-        console.log("unvisited cell to start walking from: ", cell);
         return cell;
     }
 
@@ -129,21 +151,50 @@ export default class Labyrinth {
         }
 
         const randomNeighbour = neighbourCells[Math.floor(Math.random() * neighbourCells.length)];
-        console.log("going to: ", randomNeighbour);
 
+        // if statements mest bare til console logs
         if (cell.row > randomNeighbour.row) {
             console.log("neighbour is north??");
+            // randomNeighbour.south = false;
         }
-        if (cell.row > randomNeighbour.row) {
+        if (cell.row < randomNeighbour.row) {
             console.log("neighbour is south??");
+            // randomNeighbour.north = false;
         }
         if (cell.col > randomNeighbour.col) {
             console.log("neighbour is west??");
+            // randomNeighbour.east = false;
         }
         if (cell.col < randomNeighbour.col) {
             console.log("neighbour is east??");
+            // randomNeighbour.west = false;
         }
 
+        console.log(`Going to ${randomNeighbour.row},${randomNeighbour.col}`);
         return randomNeighbour;
+    }
+
+    setWalls(route) {
+        for (let i = 1; i < route.length; i++) {
+            const currentRouteCell = route[i - 1];
+            const nextRouteCell = route[i];
+
+            if (currentRouteCell.row > nextRouteCell.row) {
+                this.maze[currentRouteCell.row][currentRouteCell.col].north = false;
+                this.maze[nextRouteCell.row][nextRouteCell.col].south = false;
+            }
+            if (currentRouteCell.row < nextRouteCell.row) {
+                this.maze[currentRouteCell.row][currentRouteCell.col].south = false;
+                this.maze[nextRouteCell.row][nextRouteCell.col].north = false;
+            }
+            if (currentRouteCell.col > nextRouteCell.col) {
+                this.maze[currentRouteCell.row][currentRouteCell.col].west = false;
+                this.maze[nextRouteCell.row][nextRouteCell.col].east = false;
+            }
+            if (currentRouteCell.col < nextRouteCell.col) {
+                this.maze[currentRouteCell.row][currentRouteCell.col].east = false;
+                this.maze[nextRouteCell.row][nextRouteCell.col].west = false;
+            }
+        }
     }
 }
