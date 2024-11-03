@@ -45,9 +45,20 @@ h1 {
 .east {
     border-right: 2px solid black;
 }
+
 .south {
     border-bottom: 2px solid black;
 }
+
 .west {
     border-left: 2px solid black;
+}
+
+.grey {
+    background-color: dimgray;
+}
+
+.walked {
+    /* opacity: 0.5; */
+    background-color: rgb(218, 33, 33);
 }
