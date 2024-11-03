@@ -53,10 +53,6 @@ export default class Labyrinth {
             // så længe den celle som randomWalk og routen starter fra endnu ikke er besøgt
             while (!currentCell.visited) {
                 route.push(currentCell);
-                console.log(`row ${currentCell.row}, col ${currentCell.col} pushed to route`);
-                for (const element of route) {
-                    console.log(element);
-                }
 
                 view.markCellWalked(currentCell, this);
 
@@ -71,10 +67,6 @@ export default class Labyrinth {
                         currentCell = route.pop();
                         view.markCellUnWalked(currentCell, this);
                     } while (nextCell !== currentCell);
-
-                    for (const e of route) {
-                        console.log(e);
-                    }
                 }
 
                 currentCell = nextCell; // når current
@@ -94,24 +86,12 @@ export default class Labyrinth {
 
             // ruten tømmes så en ny kan begyndes
             route = [];
-            console.log("Route should be empty: ", route);
 
             // hele modelen opdateres visuelt for at kunne se at vægge fra ruten er blevet fjernet
             view.updateVisualLabyrinth(this);
-
-            // console log det succesfulde randomWalk
-            for (let row = 0; row < this.rows; row++) {
-                for (let col = 0; col < this.cols; col++) {
-                    const cell = this.maze[row][col];
-                    if (this.maze[row][col].visited) {
-                        console.log(`route cell: row ${cell.row}, col ${cell.col} - ${cell.visited}`);
-                    }
-                }
-            }
         }
 
         this.setAllCellUnvisited();
-        console.log(`FINAL LABYRINTH/MODEL: `, JSON.stringify(this, null, 2));
         view.printLabyrinthInJSON(this);
     }
 
@@ -198,7 +178,6 @@ export default class Labyrinth {
     setAllCellUnvisited() {
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.cols; col++) {
-                console.log(this.maze[row][col].visited);
                 this.maze[row][col].visited = false;
             }
         }
