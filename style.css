@@ -14,7 +14,7 @@ body {
 
 h1 {
     margin-bottom: 0;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 #row-size-input,
@@ -32,8 +32,8 @@ h1 {
 
 .cell {
     background-color: aliceblue;
-    width: 50px;
-    height: 50px;
+    width: 38px;
+    height: 38px;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
 }

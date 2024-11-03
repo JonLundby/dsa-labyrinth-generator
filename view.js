@@ -79,6 +79,7 @@ export function markCellUnWalked(cell, model) {
 
 export function printLabyrinthInJSON(model) {
     const labyrinthJsonText = JSON.stringify(model, null, 2) // null = replacer | 2 = space
+    document.querySelector("#json-labyrinth").textContent = ""
     document.querySelector("#json-labyrinth").textContent = labyrinthJsonText
 
 }

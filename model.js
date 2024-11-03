@@ -31,7 +31,6 @@ export default class Labyrinth {
                 });
             }
         }
-        // this.randomWalk();
     }
 
     randomWalk() {
@@ -155,25 +154,22 @@ export default class Labyrinth {
         // if statements mest bare til console logs
         if (cell.row > randomNeighbour.row) {
             console.log("neighbour is north??");
-            // randomNeighbour.south = false;
         }
         if (cell.row < randomNeighbour.row) {
             console.log("neighbour is south??");
-            // randomNeighbour.north = false;
         }
         if (cell.col > randomNeighbour.col) {
             console.log("neighbour is west??");
-            // randomNeighbour.east = false;
         }
         if (cell.col < randomNeighbour.col) {
             console.log("neighbour is east??");
-            // randomNeighbour.west = false;
         }
 
         console.log(`Going to ${randomNeighbour.row},${randomNeighbour.col}`);
         return randomNeighbour;
     }
 
+    // funktion der sætter vægge udfra ruten
     setWalls(route) {
         for (let i = 1; i < route.length; i++) {
             const currentRouteCell = route[i - 1];
@@ -198,9 +194,11 @@ export default class Labyrinth {
         }
     }
 
+    // funktion der resetter alle celler til visited = false (så solver appen kan besøge påny)
     setAllCellUnvisited() {
-        for (let row = 0; row < this.cols; row++) {
+        for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.cols; col++) {
+                console.log(this.maze[row][col].visited);
                 this.maze[row][col].visited = false;
             }
         }
