@@ -1,5 +1,7 @@
 # Labyrinth generator
 
+[Try the labyrinth generator](https://jonlundby.github.io/dsa-labyrinth-generator/)
+
 For this labyrinth generator i have used Wilson's algorithm
 
 links used for research:
