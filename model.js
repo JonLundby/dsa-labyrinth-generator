@@ -76,31 +76,28 @@ export default class Labyrinth {
                     for (const e of route) {
                         console.log(e);
                     }
-                } // else if (nextCell.visited) {
-                // dette else if statement er overflødigt fordi at currentCell allerede er visited når den rammer den der er visited
-                // currentCell.visited = true; // ???????den foregående celle behøves måske ikke sættes til visited????????
-                // }
+                }
 
                 currentCell = nextCell; // når current
             }
 
-            // husker forbinde den allerede besøgte celle med ruten
-            route.push(currentCell)
+            // husker at forbinde den sidste og allerede besøgte celle med ruten
+            route.push(currentCell);
 
-            // !!! IF ELSE BURDE VÆRE OVERFLØDIGT HER DA selectRandomUnvisitedCell ALLEREDE SØRGER FOR AT UDGANGSPUNKT IKKE ER VISITED !!!
-            // hvis routen er 0 så må randomwalks udgangspunkt være visited
-            // if (route.length === 0) {
-            // this.randomWalk();
-            // } else {
+            // fjerner væggene mellem cellerne i ruten
             this.setWalls(route);
 
+            // for hver celle i ruten opdateres visited i maze/model og view delen kaldes for at opdatere rutens celler visuelt
             for (const cell of route) {
                 view.markCellVisited(cell, this);
                 this.maze[cell.row][cell.col].visited = true;
-                // view.markCellUnWalked(cell, this);
             }
+
+            // ruten tømmes så en ny kan begyndes
             route = [];
             console.log("Route should be empty: ", route);
+
+            // hele modelen opdateres visuelt for at kunne se at vægge fra ruten er blevet fjernet
             view.updateVisualLabyrinth(this);
 
             // console log det succesfulde randomWalk
@@ -112,8 +109,11 @@ export default class Labyrinth {
                     }
                 }
             }
-            // }
         }
+
+        this.setAllCellUnvisited();
+        console.log(`FINAL LABYRINTH/MODEL: `, JSON.stringify(this, null, 2));
+        view.printLabyrinthInJSON(this);
     }
 
     // en funktion returnere true hvis der er ubesøgte celler og false hvis alle celler er besøgt
@@ -194,6 +194,14 @@ export default class Labyrinth {
             if (currentRouteCell.col < nextRouteCell.col) {
                 this.maze[currentRouteCell.row][currentRouteCell.col].east = false;
                 this.maze[nextRouteCell.row][nextRouteCell.col].west = false;
+            }
+        }
+    }
+
+    setAllCellUnvisited() {
+        for (let row = 0; row < this.cols; row++) {
+            for (let col = 0; col < this.cols; col++) {
+                this.maze[row][col].visited = false;
             }
         }
     }

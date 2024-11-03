@@ -1,3 +1,4 @@
+// bygger html for labyrinten med vægge på alle side i alle celler (altså før labyrinten er skåret ud)
 export function createVisualLabyrinth(model) {
     const labContainer = document.querySelector("#grid-container");
     labContainer.innerHTML = "";
@@ -23,9 +24,9 @@ export function createVisualLabyrinth(model) {
         }
     }
 }
+
+// opdatere labyrintens vægge
 export function updateVisualLabyrinth(model) {
-    // const labContainer = document.querySelector("#grid-container");
-    // labContainer.innerHTML = "";
     const visualCells = document.querySelectorAll("#grid-container .cell");
     
     for (let row = 0; row < model.rows; row++) {
@@ -46,11 +47,11 @@ export function updateVisualLabyrinth(model) {
             if (!model.maze[row][col].west) {
                 visualCell.classList.remove("west");
             }
-            // labContainer.insertAdjacentElement("beforeend", cell);
         }
     }
 }
 
+// fjerner walked og grey således at cellen fremstår som besøgt
 export function markCellVisited(cell, model) {
     const visualCells = document.querySelectorAll("#grid-container .cell");
     const cellIndex = cell.row * model.cols + cell.col;
@@ -59,15 +60,25 @@ export function markCellVisited(cell, model) {
     visualCells[cellIndex].classList.remove("walked");
 }
 
+
+// tilføjer markering af at en celle er blevet gået/trådt på
 export function markCellWalked(cell, model) {
     const visualCells = document.querySelectorAll("#grid-container .cell");
     const cellIndex = cell.row * model.cols + cell.col;
 
     visualCells[cellIndex].classList.add("walked");
 }
+
+// fjerner markering af at der er blevet "trådt" på en celle
 export function markCellUnWalked(cell, model) {
     const visualCells = document.querySelectorAll("#grid-container .cell");
     const cellIndex = cell.row * model.cols + cell.col;
 
     visualCells[cellIndex].classList.remove("walked");
+}
+
+export function printLabyrinthInJSON(model) {
+    const labyrinthJsonText = JSON.stringify(model, null, 2) // null = replacer | 2 = space
+    document.querySelector("#json-labyrinth").textContent = labyrinthJsonText
+
 }

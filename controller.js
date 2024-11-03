@@ -43,29 +43,3 @@ async function getLabyrinthModel() {
     return data;
 }
 
-// // det her er måske mere view del...
-// function createLabyrinth(model) {
-//     // console.log(model);
-//     const labContainer = document.querySelector("#grid-container");
-//     labContainer.innerHTML = "";
-
-//     for (let row = 0; row < model.rows; row++) {
-//         for (let col = 0; col < model.cols; col++) {
-//             const cell = document.createElement("div");
-//             cell.classList.add("cell");
-//             if (model.maze[row][col].north) {
-//                 cell.classList.add("north");
-//             }
-//             if (model.maze[row][col].east) {
-//                 cell.classList.add("east");
-//             }
-//             if (model.maze[row][col].south) {
-//                 cell.classList.add("south");
-//             }
-//             if (model.maze[row][col].west) {
-//                 cell.classList.add("west");
-//             }
-//             labContainer.insertAdjacentElement("beforeend", cell);
-//         }
-//     }
-// }
