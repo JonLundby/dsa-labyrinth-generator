@@ -26,7 +26,7 @@ async function init() {
     });
 
     document.querySelector("#create-labyrinth-btn").addEventListener("click", async () => {
-        // tilpasse css grid
+        // tilpasser css grid
         document.documentElement.style.setProperty("--grid-rows", ROW_SIZE);
         document.documentElement.style.setProperty("--grid-cols", COL_SIZE);
 
@@ -42,6 +42,13 @@ async function init() {
 
         // model.randomWalk();
         randomWalk();
+        document.querySelector("#create-labyrinth-btn").disabled = true;
+    });
+
+    document.querySelector("#clear-labyrinth-btn").addEventListener("click", () => {
+        document.querySelector("#grid-container").innerHTML = "";
+        document.querySelector("#json-labyrinth").innerHTML = "";
+        document.querySelector("#create-labyrinth-btn").disabled = false;
     });
 }
 
